@@ -1,0 +1,9 @@
+# Parse the $(target)
+# $(target)  ==>
+#                xx/xx/xx/xx/
+
+obj-y      := $(patsubst %, $(target-dir)%, $(obj-y))
+
+subdir     =$(filter %/, $(obj-y))
+subdir-obj =$(patsubst %/, %/built-in.o, $(subdir))
+objs       =$(filter-out %/, $(obj-y))
