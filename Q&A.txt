@@ -1,0 +1,9 @@
+2016.7.12
+
+Zxing:
+Where in "system_stm32f4xx.c" -> "SystemInit" function.
+This is func called by "startxxx.s", and initialize SystemClock and set interrupt-vector mainly.
+But "main.c" same as working.
+I want to remove "system_stm32f4xx.c/SystemInit", however lead to chip can not work.
+Waiting help...
+
