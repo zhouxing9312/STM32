@@ -30,8 +30,10 @@ export Q=@
 cmsis-dir	= CMSIS/
 driver-dir	= driver/
 user-dir	= user/
+freertos-dir= FreeRTOSv9.0.0/FreeRTOS/Source/
 
-INCLUDE		= -I./CMSIS/Include -I./CMSIS/Device/ST/STM32F4xx/Include -I./driver/inc
+INCLUDE		= -I./CMSIS/Include -I./CMSIS/Device/ST/STM32F4xx/Include -I./driver/inc -I./user/inc	\
+-I./$(freertos-dir)include -I./$(freertos-dir)portable/GCC/ARM_CM4F
 
 export CFLAGS	:= $(FLAGS) $(INCLUDE)
 export AFLAGS	:= $(FLAGS) $(INCLUDE)
@@ -43,8 +45,9 @@ LDFLAGS += -Wl,-wrap=printf
 cmsis-y		:=	$(patsubst %/, %/built-in.o, $(cmsis-dir))
 driver-y	:=	$(patsubst %/, %/built-in.o, $(driver-dir))
 user-y		:=	$(patsubst %/, %/built-in.o, $(user-dir))
+freertos-y  :=  $(patsubst %/, %/built-in.o, $(freertos-dir))
 
-all-target	:= $(cmsis-y) $(driver-y) $(user-y)
+all-target	:= $(cmsis-y) $(driver-y) $(user-y) $(freertos-y)
 
 all: $(all-target)
 	$(Q)$(CC) $(LDFLAGS) $^ -Wl,-Map=target.map -lm -o target

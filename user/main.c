@@ -1,18 +1,36 @@
 #include <stdio.h>
+#include "FreeRTOS.h"
+#include "task.h"
 #include "sys.h"
 #include "usart.h" 
-#include "delay.h" 
+
+static void vTestTask( void *pvParameters )
+{
+	vTaskDelay(50);
+	while(1) {
+		vTaskDelay(1000/portTICK_RATE_MS);
+		printf("LoveLive---1~\n");
+	}
+}
+
+static void vTestTask2( void *pvParameters )
+{
+	while(1) {
+		vTaskDelay(1000/portTICK_RATE_MS);
+		printf("LoveLive---2~\n");
+	}
+}
 
 int main(void)
 { 
-	u8 t=0;
 	Stm32_Clock_Init(336,8,2,7);//设置时钟,168Mhz
-	delay_init(168);		//初始化延时函数
-	uart_init(84,115200);	//串口初始化为115200
-	while(1)
-	{
-		delay_ms(1000);
-		printf("LoveLive~ %d\n", t);
-		t++;
-	}
+	uart_init(84,115200);
+
+	printf("---START---\n");
+	xTaskCreate( vTestTask, "Test", 256, NULL, 1, NULL );
+	xTaskCreate( vTestTask2, "Test2", 256, NULL, 1, NULL );
+
+    vTaskStartScheduler();
+
+	for(;;);
 }

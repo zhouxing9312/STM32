@@ -55,7 +55,7 @@ SECTIONS
     . = ALIGN(4);
     KEEP(*(.isr_vector)) /* Startup code */
     . = ALIGN(4);
-  } >RAM AT>FLASH
+  } >FLASH
 
   /* The program code and other data goes into FLASH */
   .text :
